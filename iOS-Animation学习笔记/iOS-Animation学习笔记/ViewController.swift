@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UITableViewController {
-    var titleArray : Array<String> = ["雪花粒子Demo","弹簧效果Demo","Twitter启动Demo","登陆动画Demo","引导页卡片Demo","扩大背景转场","SlidingPanels"]
+    var titleArray : Array<String> = ["雪花粒子Demo","弹簧效果Demo","Twitter启动Demo","登陆动画Demo","引导页卡片Demo","扩大背景转场","SlidingPanels", "简书转场动画"]
     var nameArray : Array<String> = Array()
     
     override func viewDidLoad() {
@@ -60,6 +60,8 @@ class ViewController: UITableViewController {
                 nextController.title = titleArray[indexPath.row]
                 self.presentViewController(nextController, animated: true, completion: nil)
             return
+            case 7:
+                nextController = JSFirstViewController()
         default:
         break;
         }

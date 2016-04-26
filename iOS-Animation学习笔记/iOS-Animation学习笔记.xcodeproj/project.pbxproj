@@ -21,6 +21,9 @@
 		F12415A21C47783800008445 /* PingFirstController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12415A11C47783800008445 /* PingFirstController.swift */; };
 		F13A10281C57B4C900E8CE67 /* RoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13A10271C57B4C900E8CE67 /* RoomsViewController.swift */; };
 		F13A102A1C57B58A00E8CE67 /* RoomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13A10291C57B58A00E8CE67 /* RoomCell.swift */; };
+		F13A17091CCF9F6A0014F795 /* JSFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13A17081CCF9F6A0014F795 /* JSFirstViewController.swift */; };
+		F13A170B1CCFA0040014F795 /* JSSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13A170A1CCFA0040014F795 /* JSSecondViewController.swift */; };
+		F13A170D1CCFA39C0014F795 /* JSTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13A170C1CCFA39C0014F795 /* JSTransition.swift */; };
 		F13C4A631C2D810900F365D1 /* LoginLoadLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C4A621C2D810900F365D1 /* LoginLoadLayer.swift */; };
 		F13C4A651C2D819600F365D1 /* UIView+XM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C4A641C2D819600F365D1 /* UIView+XM.swift */; };
 		F14C66881C4D273200342D77 /* PingSecondContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14C66871C4D273200342D77 /* PingSecondContentView.swift */; };
@@ -61,6 +64,9 @@
 		F12415A11C47783800008445 /* PingFirstController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PingFirstController.swift; sourceTree = "<group>"; };
 		F13A10271C57B4C900E8CE67 /* RoomsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsViewController.swift; sourceTree = "<group>"; };
 		F13A10291C57B58A00E8CE67 /* RoomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomCell.swift; sourceTree = "<group>"; };
+		F13A17081CCF9F6A0014F795 /* JSFirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSFirstViewController.swift; sourceTree = "<group>"; };
+		F13A170A1CCFA0040014F795 /* JSSecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSSecondViewController.swift; sourceTree = "<group>"; };
+		F13A170C1CCFA39C0014F795 /* JSTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSTransition.swift; sourceTree = "<group>"; };
 		F13C4A621C2D810900F365D1 /* LoginLoadLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginLoadLayer.swift; sourceTree = "<group>"; };
 		F13C4A641C2D819600F365D1 /* UIView+XM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+XM.swift"; sourceTree = "<group>"; };
 		F14C66871C4D273200342D77 /* PingSecondContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PingSecondContentView.swift; sourceTree = "<group>"; };
@@ -133,6 +139,7 @@
 				F1EEB87A1C2AFDE100A1DB27 /* 雪花飘散Demo */,
 				F1EEB87C1C2AFDE100A1DB27 /* Twitter启动Demo */,
 				F13A10261C57B49F00E8CE67 /* SlidingPanels */,
+				F13A17071CCF9F480014F795 /* 简书转场动画 */,
 				F102DD561C2997E4005CA9D4 /* Extension */,
 				F102DD421C299025005CA9D4 /* AppDelegate.swift */,
 				F102DD441C299025005CA9D4 /* ViewController.swift */,
@@ -165,6 +172,16 @@
 				F1CB63041CC4C8B60007D45C /* RoomTransition.swift */,
 			);
 			path = SlidingPanels;
+			sourceTree = "<group>";
+		};
+		F13A17071CCF9F480014F795 /* 简书转场动画 */ = {
+			isa = PBXGroup;
+			children = (
+				F13A17081CCF9F6A0014F795 /* JSFirstViewController.swift */,
+				F13A170A1CCFA0040014F795 /* JSSecondViewController.swift */,
+				F13A170C1CCFA39C0014F795 /* JSTransition.swift */,
+			);
+			path = "简书转场动画";
 			sourceTree = "<group>";
 		};
 		F157EFD31C2C49C600496D93 /* 登录动画Demo */ = {
@@ -309,10 +326,12 @@
 				F102DD431C299025005CA9D4 /* AppDelegate.swift in Sources */,
 				F1023E741C3AABFC004BE13F /* TipModel.swift in Sources */,
 				F1F997D11C5A58480071023F /* RoomsDetailView.swift in Sources */,
+				F13A17091CCF9F6A0014F795 /* JSFirstViewController.swift in Sources */,
 				F13A102A1C57B58A00E8CE67 /* RoomCell.swift in Sources */,
 				F1F997CF1C5A58260071023F /* RoomsDetailController.swift in Sources */,
 				F17088351C2DAF9C00E91EB0 /* LoginSuccessController.swift in Sources */,
 				F102DD5E1C299BF2005CA9D4 /* AppConfig.swift in Sources */,
+				F13A170D1CCFA39C0014F795 /* JSTransition.swift in Sources */,
 				F1DA35651C47880B00051646 /* PingSecondController.swift in Sources */,
 				F102DD581C2997EF005CA9D4 /* UIImage+Extension.swift in Sources */,
 				F13C4A651C2D819600F365D1 /* UIView+XM.swift in Sources */,
@@ -321,6 +340,7 @@
 				F1EEB8801C2AFE0E00A1DB27 /* SplashAnimiationController.swift in Sources */,
 				F17088311C2D8EE400E91EB0 /* LoginViewController.swift in Sources */,
 				F12415A21C47783800008445 /* PingFirstController.swift in Sources */,
+				F13A170B1CCFA0040014F795 /* JSSecondViewController.swift in Sources */,
 				F1EEB87E1C2AFDE100A1DB27 /* EmitterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
