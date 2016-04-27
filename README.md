@@ -2,7 +2,7 @@
 # iOS动画学习笔记
 
 - 更新Tips
-  - 1.[新增简书转场动画](https://github.com/lyimin/iOS-Animation-Demo#8.简书转场动画)  ----- 2016-04-26
+  - 1.[新增简书转场动画](https://github.com/lyimin/iOS-Animation-Demo#8简书转场动画)  ----- 2016-04-26
   - 2.第一次提交       ----- 2016-04-25
 
 ### 1.雪花
