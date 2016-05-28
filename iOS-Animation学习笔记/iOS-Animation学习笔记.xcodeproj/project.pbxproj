@@ -33,6 +33,9 @@
 		F17088331C2D8FED00E91EB0 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17088321C2D8FED00E91EB0 /* LoginButton.swift */; };
 		F17088351C2DAF9C00E91EB0 /* LoginSuccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17088341C2DAF9C00E91EB0 /* LoginSuccessController.swift */; };
 		F17B52771C3188EE0010C142 /* LoginTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17B52761C3188EE0010C142 /* LoginTransitions.swift */; };
+		F19BE5821CF72362007CC46D /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19BE5811CF72362007CC46D /* ProgressView.swift */; };
+		F19BE5841CF72CE4007CC46D /* ProgressAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19BE5831CF72CE4007CC46D /* ProgressAnimationController.swift */; };
+		F19BE5861CF72E4E007CC46D /* ProgressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F19BE5851CF72E4E007CC46D /* ProgressView.xib */; };
 		F1AE07D51C4B90C50004FA80 /* PingFirstContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1AE07D41C4B90C50004FA80 /* PingFirstContentView.xib */; };
 		F1AE07D71C4BA5F90004FA80 /* PingFirstContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AE07D61C4BA5F90004FA80 /* PingFirstContentView.swift */; };
 		F1AE07D91C4BDABC0004FA80 /* PingItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AE07D81C4BDABC0004FA80 /* PingItemModel.swift */; };
@@ -76,6 +79,9 @@
 		F17088321C2D8FED00E91EB0 /* LoginButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		F17088341C2DAF9C00E91EB0 /* LoginSuccessController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginSuccessController.swift; sourceTree = "<group>"; };
 		F17B52761C3188EE0010C142 /* LoginTransitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTransitions.swift; sourceTree = "<group>"; };
+		F19BE5811CF72362007CC46D /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		F19BE5831CF72CE4007CC46D /* ProgressAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressAnimationController.swift; sourceTree = "<group>"; };
+		F19BE5851CF72E4E007CC46D /* ProgressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProgressView.xib; sourceTree = "<group>"; };
 		F1AE07D41C4B90C50004FA80 /* PingFirstContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PingFirstContentView.xib; sourceTree = "<group>"; };
 		F1AE07D61C4BA5F90004FA80 /* PingFirstContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PingFirstContentView.swift; sourceTree = "<group>"; };
 		F1AE07D81C4BDABC0004FA80 /* PingItemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PingItemModel.swift; sourceTree = "<group>"; };
@@ -140,6 +146,8 @@
 				F1EEB87C1C2AFDE100A1DB27 /* Twitter启动Demo */,
 				F13A10261C57B49F00E8CE67 /* SlidingPanels */,
 				F13A17071CCF9F480014F795 /* 简书转场动画 */,
+				F19BE5801CF7229A007CC46D /* 加载进度条 */,
+				F1CCA1A61CF034C7008921A4 /* Trainer */,
 				F102DD561C2997E4005CA9D4 /* Extension */,
 				F102DD421C299025005CA9D4 /* AppDelegate.swift */,
 				F102DD441C299025005CA9D4 /* ViewController.swift */,
@@ -209,6 +217,23 @@
 				F14C668B1C4D369000342D77 /* PingTransition.swift */,
 			);
 			path = "扩大背景转场动画";
+			sourceTree = "<group>";
+		};
+		F19BE5801CF7229A007CC46D /* 加载进度条 */ = {
+			isa = PBXGroup;
+			children = (
+				F19BE5851CF72E4E007CC46D /* ProgressView.xib */,
+				F19BE5811CF72362007CC46D /* ProgressView.swift */,
+				F19BE5831CF72CE4007CC46D /* ProgressAnimationController.swift */,
+			);
+			path = "加载进度条";
+			sourceTree = "<group>";
+		};
+		F1CCA1A61CF034C7008921A4 /* Trainer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Trainer;
 			sourceTree = "<group>";
 		};
 		F1EEB8781C2AFDE100A1DB27 /* 弹簧效果Demo */ = {
@@ -294,6 +319,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F19BE5861CF72E4E007CC46D /* ProgressView.xib in Resources */,
 				F102DD4D1C299025005CA9D4 /* LaunchScreen.storyboard in Resources */,
 				F14C668A1C4D278A00342D77 /* PingSecondContentView.xib in Resources */,
 				F1AE07D51C4B90C50004FA80 /* PingFirstContentView.xib in Resources */,
@@ -342,6 +368,8 @@
 				F12415A21C47783800008445 /* PingFirstController.swift in Sources */,
 				F13A170B1CCFA0040014F795 /* JSSecondViewController.swift in Sources */,
 				F1EEB87E1C2AFDE100A1DB27 /* EmitterViewController.swift in Sources */,
+				F19BE5821CF72362007CC46D /* ProgressView.swift in Sources */,
+				F19BE5841CF72CE4007CC46D /* ProgressAnimationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +480,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "iOS-Animation学习笔记/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "xiaoming.com.iOS-Animation----";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xiaoming.iOS-Animation----";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -465,7 +493,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "iOS-Animation学习笔记/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "xiaoming.com.iOS-Animation----";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xiaoming.iOS-Animation----";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
