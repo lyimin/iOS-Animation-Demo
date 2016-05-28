@@ -21,4 +21,7 @@
 ![](https://github.com/lyimin/iOS-Animation-Demo/blob/master/iOS-Animation%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Resource/7.gif)
 ### 8.简书转场动画
 ![](https://github.com/lyimin/iOS-Animation-Demo/blob/master/iOS-Animation%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Resource/8.gif)
+### 9.进度条动画
+![](https://github.com/lyimin/iOS-Animation-Demo/blob/master/iOS-Animation%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Resource/9.gif)
+
 
