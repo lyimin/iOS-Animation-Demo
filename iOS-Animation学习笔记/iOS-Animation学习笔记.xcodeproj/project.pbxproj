@@ -29,6 +29,8 @@
 		F14C66881C4D273200342D77 /* PingSecondContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14C66871C4D273200342D77 /* PingSecondContentView.swift */; };
 		F14C668A1C4D278A00342D77 /* PingSecondContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F14C66891C4D278A00342D77 /* PingSecondContentView.xib */; };
 		F14C668C1C4D369000342D77 /* PingTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14C668B1C4D369000342D77 /* PingTransition.swift */; };
+		F14CC25E1D376A5300C50107 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CC25D1D376A5300C50107 /* ActivityIndicatorView.swift */; };
+		F14CC2601D376A7D00C50107 /* MusicIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CC25F1D376A7D00C50107 /* MusicIndicatorViewController.swift */; };
 		F17088311C2D8EE400E91EB0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17088301C2D8EE400E91EB0 /* LoginViewController.swift */; };
 		F17088331C2D8FED00E91EB0 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17088321C2D8FED00E91EB0 /* LoginButton.swift */; };
 		F17088351C2DAF9C00E91EB0 /* LoginSuccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17088341C2DAF9C00E91EB0 /* LoginSuccessController.swift */; };
@@ -75,6 +77,8 @@
 		F14C66871C4D273200342D77 /* PingSecondContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PingSecondContentView.swift; sourceTree = "<group>"; };
 		F14C66891C4D278A00342D77 /* PingSecondContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PingSecondContentView.xib; sourceTree = "<group>"; };
 		F14C668B1C4D369000342D77 /* PingTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PingTransition.swift; sourceTree = "<group>"; };
+		F14CC25D1D376A5300C50107 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
+		F14CC25F1D376A7D00C50107 /* MusicIndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicIndicatorViewController.swift; sourceTree = "<group>"; };
 		F17088301C2D8EE400E91EB0 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F17088321C2D8FED00E91EB0 /* LoginButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		F17088341C2DAF9C00E91EB0 /* LoginSuccessController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginSuccessController.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 				F13A17071CCF9F480014F795 /* 简书转场动画 */,
 				F19BE5801CF7229A007CC46D /* 加载进度条 */,
 				F1CCA1A61CF034C7008921A4 /* Trainer */,
+				F14CC25C1D376A5300C50107 /* ActivityIndicatorView */,
 				F102DD561C2997E4005CA9D4 /* Extension */,
 				F102DD421C299025005CA9D4 /* AppDelegate.swift */,
 				F102DD441C299025005CA9D4 /* ViewController.swift */,
@@ -190,6 +195,15 @@
 				F13A170C1CCFA39C0014F795 /* JSTransition.swift */,
 			);
 			path = "简书转场动画";
+			sourceTree = "<group>";
+		};
+		F14CC25C1D376A5300C50107 /* ActivityIndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				F14CC25D1D376A5300C50107 /* ActivityIndicatorView.swift */,
+				F14CC25F1D376A7D00C50107 /* MusicIndicatorViewController.swift */,
+			);
+			path = ActivityIndicatorView;
 			sourceTree = "<group>";
 		};
 		F157EFD31C2C49C600496D93 /* 登录动画Demo */ = {
@@ -338,10 +352,12 @@
 			files = (
 				F1023E701C3AAA77004BE13F /* TipCenterView.swift in Sources */,
 				F1AE07D71C4BA5F90004FA80 /* PingFirstContentView.swift in Sources */,
+				F14CC2601D376A7D00C50107 /* MusicIndicatorViewController.swift in Sources */,
 				F17088331C2D8FED00E91EB0 /* LoginButton.swift in Sources */,
 				F17B52771C3188EE0010C142 /* LoginTransitions.swift in Sources */,
 				F102DD451C299025005CA9D4 /* ViewController.swift in Sources */,
 				F14C668C1C4D369000342D77 /* PingTransition.swift in Sources */,
+				F14CC25E1D376A5300C50107 /* ActivityIndicatorView.swift in Sources */,
 				F14C66881C4D273200342D77 /* PingSecondContentView.swift in Sources */,
 				F1023E761C3AAFE7004BE13F /* TipSecondController.swift in Sources */,
 				F13A10281C57B4C900E8CE67 /* RoomsViewController.swift in Sources */,
