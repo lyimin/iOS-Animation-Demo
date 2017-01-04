@@ -35,7 +35,7 @@ class TipCenterView: UIView {
     }
     
     // 执行动画时不改变内部空间的frame
-    override func alignmentRectForFrame(frame: CGRect) -> CGRect {
+    override func alignmentRect(forFrame frame: CGRect) -> CGRect {
         return bounds
     }
 }

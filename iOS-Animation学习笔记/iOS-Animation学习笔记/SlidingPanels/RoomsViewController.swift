@@ -20,90 +20,90 @@ class RoomsViewController: UIViewController, UICollectionViewDelegate, UICollect
         self.collectionView.reloadData()
         self.view.addSubview(closeBtn)
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        self.navigationController?.navigationBarHidden = true;
     }
 
     // MARK: UICollectionViewDataSource
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return rooms.count
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! RoomCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! RoomCell
         cell.detailView.room = rooms[indexPath.item]
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedIndexPath = indexPath
         let controller = RoomsDetailController()
         controller.room = rooms[indexPath.row]
-        presentViewController(controller, animated: true, completion: nil)
+        present(controller, animated: true, completion: nil)
     }
     
     // 拖拽完毕时调用, 这个方法主要是做分页效果
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
         // 拿到layout
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         // 获取宽度
         let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-        var offset = targetContentOffset.memory
+        var offset = targetContentOffset.pointee
         
         let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
         let roundedIndex = round(index)
         
         offset = CGPoint(x: roundedIndex*cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
-        targetContentOffset.memory = offset
+        targetContentOffset.pointee = offset
         
     }
     
     func closeBtnDidClick() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     // MARK: PanelTransitionViewController
     
-    func panelTransitionDetailViewForTransition(transition: RoomTransition) -> RoomsDetailView! {
+    func panelTransitionDetailViewForTransition(_ transition: RoomTransition) -> RoomsDetailView! {
         if let indexPath = selectedIndexPath {
-            if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? RoomCell {
+            if let cell = collectionView.cellForItem(at: indexPath) as? RoomCell {
                 return cell.detailView
             }
         }
         return nil
     }
     //MARK: - Getter or Setter 
-    private lazy var collectionView : UICollectionView = {
+    fileprivate lazy var collectionView : UICollectionView = {
         // 设置cell宽高，边距
-        let screenSize = UIScreen.mainScreen().bounds.size
+        let screenSize = UIScreen.main.bounds.size
         let cellWidth = floor(screenSize.width * kRoomCellScaling)
         let cellHeight = floor(screenSize.height * kRoomCellScaling)
         
-        let insetX = (CGRectGetWidth(self.view.bounds)-cellWidth) / 2.0
-        let insetY = (CGRectGetHeight(self.view.bounds)-cellHeight) / 2.0
+        let insetX = (self.view.bounds.width-cellWidth) / 2.0
+        let insetY = (self.view.bounds.height-cellHeight) / 2.0
         // 设置layout
         var layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .Horizontal
+        layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: cellWidth, height: cellHeight-64)
         
         var collectionView : UICollectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.whiteColor()
-        collectionView.registerClass(RoomCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.backgroundColor = UIColor.white
+        collectionView.register(RoomCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
         return collectionView
     }()
     // closeBtn
-    private lazy var closeBtn: UIButton = {
+    fileprivate lazy var closeBtn: UIButton = {
         var closeBtn: UIButton = UIButton(frame: CGRect(x: 0, y: 20, width: 44, height: 44))
-        closeBtn.setImage(UIImage(named: "close-button"), forState: .Normal)
-        closeBtn.backgroundColor = UIColor.blackColor()
-        closeBtn.addTarget(self, action: #selector(RoomsViewController.closeBtnDidClick), forControlEvents: .TouchUpInside)
+        closeBtn.setImage(UIImage(named: "close-button"), for: UIControlState())
+        closeBtn.backgroundColor = UIColor.black
+        closeBtn.addTarget(self, action: #selector(RoomsViewController.closeBtnDidClick), for: .touchUpInside)
         return closeBtn
     }()
-    var selectedIndexPath: NSIndexPath?
+    var selectedIndexPath: IndexPath?
     
     //数据源
     let rooms = [

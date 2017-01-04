@@ -15,13 +15,13 @@ class LoginSuccessController: UIViewController {
 
         let imgView = UIImageView(frame: self.view.bounds)
         imgView.image = UIImage(named: "Home")
-        imgView.userInteractionEnabled = true
+        imgView.isUserInteractionEnabled = true
         imgView.viewAddTarget(self, action: "dismissController")
         self.view.addSubview(imgView)
     }
     
     func dismissController() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
 }

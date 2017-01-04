@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginButton: UIButton {
+class LoginButton: UIButton, CAAnimationDelegate {
     
     typealias loginSuccessBlock = () -> Void
 
@@ -20,7 +20,7 @@ class LoginButton: UIButton {
         // 设置加载是的layer
         self.layer.cornerRadius = self.height*0.5
         self.layer.masksToBounds = true
-        self.addTarget(self, action: "loginBtnDidClick", forControlEvents: .TouchUpInside)
+        self.addTarget(self, action: #selector(LoginButton.loginBtnDidClick), for: .touchUpInside)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,17 +28,18 @@ class LoginButton: UIButton {
     }
     
     // MARK: - AnimationDelegate
-    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         // 当登陆放大动画执行完后回调.并设置userinterface = true
         if anim is CABasicAnimation {
             let baseAnimation = anim as! CABasicAnimation
             if baseAnimation.keyPath == "transform.scale" {
-                self.userInteractionEnabled = true
+                self.isUserInteractionEnabled = true
                 if self.block != nil {
                     self.block!()
                 }
             }
-            NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "animationStop", userInfo: nil, repeats: false)
+            Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(LoginButton.animationStop), userInfo: nil, repeats: false)
 //            self.layer.removeAllAnimations()
         }
     }
@@ -51,7 +52,7 @@ class LoginButton: UIButton {
         self.startAnimation()
     }
     // MARK: Public Methods
-    func loginSuccessWithBlock(block : loginSuccessBlock?) {
+    func loginSuccessWithBlock(_ block : loginSuccessBlock?) {
         self.block = block
         // 登陆成功后执行放大动画
         let scaleAnimation : CABasicAnimation = CABasicAnimation(keyPath: "transform.scale")
@@ -61,30 +62,31 @@ class LoginButton: UIButton {
         scaleAnimation.duration = 0.3
         scaleAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         scaleAnimation.fillMode = kCAFillModeForwards
-        scaleAnimation.removedOnCompletion = false
-        self.layer.addAnimation(scaleAnimation, forKey: scaleAnimation.keyPath)
+        scaleAnimation.isRemovedOnCompletion = false
+        self.layer.add(scaleAnimation, forKey: scaleAnimation.keyPath)
         self.loadView.stopAnimation()
     }
     
+
     // MARK: Private Methods
-    private func startAnimation() {
+    fileprivate func startAnimation() {
         // 把登陆按钮变成加载按钮的动画
         let widthAnimation : CABasicAnimation = CABasicAnimation(keyPath: "bounds.size.width")
         widthAnimation.fromValue = self.width
         widthAnimation.toValue = self.height
-        widthAnimation.removedOnCompletion = false
+        widthAnimation.isRemovedOnCompletion = false
         widthAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
         widthAnimation.duration = 0.1
         widthAnimation.fillMode = kCAFillModeForwards
-        self.layer.addAnimation(widthAnimation, forKey: widthAnimation.keyPath)
+        self.layer.add(widthAnimation, forKey: widthAnimation.keyPath)
         // 执行加载动画
         loadView.animation()
-        self.userInteractionEnabled = false
+        self.isUserInteractionEnabled = false
     }
     
     
     // 加载loadview
-    private lazy var loadView: LoginLoadLayer! = {
+    fileprivate lazy var loadView: LoginLoadLayer! = {
         let loadView : LoginLoadLayer = LoginLoadLayer(frame: self.frame)
         self.layer.addSublayer(loadView)
         return loadView

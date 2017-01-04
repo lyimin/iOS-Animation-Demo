@@ -14,7 +14,7 @@ class LoginLoadLayer : CAShapeLayer {
         self.init()
         // 利用贝塞尔画一个半圆
         // 设置frame
-        self.frame = CGRectMake(0, 0, CGRectGetHeight(frame), CGRectGetHeight(frame))
+        self.frame = CGRect(x: 0, y: 0, width: frame.height, height: frame.height)
         // 圆半径
         let radius : CGFloat = frame.size.height*0.25
         let center : CGPoint = CGPoint(x: frame.size.height*0.5, y: frame.size.height*0.5)
@@ -22,20 +22,20 @@ class LoginLoadLayer : CAShapeLayer {
         let startAngle : CGFloat = CGFloat(-M_PI_2)
         let endAngle = CGFloat(M_PI_2)
         
-        let bezierPath : CGPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true).CGPath
+        let bezierPath : CGPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true).cgPath
         self.path = bezierPath
         
         // 设置颜色线宽
         self.fillColor = nil
-        self.strokeColor = UIColor.whiteColor().CGColor
+        self.strokeColor = UIColor.white.cgColor
         self.lineWidth = 1;
         
-        self.hidden = true
+        self.isHidden = true
     }
     
     // 开始旋转动画
     func animation () {
-        self.hidden = false
+        self.isHidden = false
         let baseAnimation : CABasicAnimation = CABasicAnimation (keyPath: "transform.rotation.z")
         // 设置值
         baseAnimation.fromValue = 0;
@@ -46,15 +46,15 @@ class LoginLoadLayer : CAShapeLayer {
         baseAnimation.duration = 0.5
         baseAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
         // 动画完成不要回到原始位置
-        baseAnimation.removedOnCompletion = false
+        baseAnimation.isRemovedOnCompletion = false
         baseAnimation.fillMode = kCAFillModeForwards
         
-        self.addAnimation(baseAnimation, forKey: baseAnimation.keyPath)
+        self.add(baseAnimation, forKey: baseAnimation.keyPath)
     }
     
     // 停止动画
     func stopAnimation() {
-        self.hidden = true
+        self.isHidden = true
         self.removeAllAnimations()
     }
     

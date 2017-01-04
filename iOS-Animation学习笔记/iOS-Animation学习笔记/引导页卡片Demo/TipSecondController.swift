@@ -14,7 +14,7 @@ private let kTipViewHeight: CGFloat = 400
 private let kTipViewWidth: CGFloat  = 300
 class TipSecondController: UIViewController {
     /// 模型
-    private var tipModelArray : NSArray!
+    fileprivate var tipModelArray : NSArray!
     
     convenience init(tipModelArray : NSArray) {
         self.init()
@@ -27,7 +27,7 @@ class TipSecondController: UIViewController {
 
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setupAnimator()
     }
@@ -36,23 +36,23 @@ class TipSecondController: UIViewController {
     /**
     手势处理
     */
-    func panTipView(pan: UIPanGestureRecognizer) {
-        let location = pan.locationInView(view)
+    func panTipView(_ pan: UIPanGestureRecognizer) {
+        let location = pan.location(in: view)
         
         switch pan.state {
-        case .Began:
+        case .began:
             // 开始是添加一个动画手势
             animator.removeBehavior(snapBehavior)
             panBehavior = UIAttachmentBehavior(item: tipView, attachedToAnchor: location)
             animator.addBehavior(panBehavior)
             print("1.Began")
-        case .Changed:
+        case .changed:
             panBehavior.anchorPoint = location
             print("2.Changed")
-        case .Ended:
+        case .ended:
             print("3.end")
             fallthrough
-        case .Cancelled:
+        case .cancelled:
             print("4.cancelled")
             let center = self.view.center
             let offset = location.x - center.x
@@ -63,35 +63,34 @@ class TipSecondController: UIViewController {
             }
             else {
                 var nextIndex = self.index
-                var position = TipViewPosition.RotatedRight
-                var nextPosition = TipViewPosition.RotatedLeft
+                var position = TipViewPosition.rotatedRight
+                var nextPosition = TipViewPosition.rotatedLeft
                 
                 if offset > 0 {
                     nextIndex -= 1
-                    nextPosition = .RotatedLeft
-                    position = .RotatedRight
+                    nextPosition = .rotatedLeft
+                    position = .rotatedRight
                 }
                 else {
                     nextIndex += 1
-                    nextPosition = .RotatedRight
-                    position = .RotatedLeft
+                    nextPosition = .rotatedRight
+                    position = .rotatedLeft
                 }
                 
                 if nextIndex < 0 {
                     nextIndex = 0
-                    nextPosition = .RotatedRight
+                    nextPosition = .rotatedRight
                 }
                 
                 let duration = 0.4
-                let center = CGPoint(x: CGRectGetWidth(view.bounds)/2, y: CGRectGetHeight(view.bounds)/2)
+                let center = CGPoint(x: view.bounds.width/2, y: view.bounds.height/2)
                 
                 panBehavior.anchorPoint = position.viewCenter(center)
                 
-                dispatch_after(dispatch_time(
-                    DISPATCH_TIME_NOW, Int64(duration * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(duration * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
                         [self]
                         if nextIndex >= self.tipModelArray.count {
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                            self.dismiss(animated: true, completion: nil)
                         }
                         else {
                             self.index = nextIndex
@@ -112,8 +111,8 @@ class TipSecondController: UIViewController {
     /**
     创建一个卡片
     */
-    private func createTipView() -> TipCenterView {
-        let tipView = NSBundle.mainBundle().loadNibNamed("TipCenterView", owner: nil, options: nil).first as! TipCenterView
+    fileprivate func createTipView() -> TipCenterView {
+        let tipView = Bundle.main.loadNibNamed("TipCenterView", owner: nil, options: nil)?.first as! TipCenterView
         tipView.frame = CGRect(x: 0, y: 0, width: kTipViewWidth, height: kTipViewHeight)
         return tipView
     }
@@ -121,11 +120,11 @@ class TipSecondController: UIViewController {
     /**
      重新设置卡片
      */
-    func resetTipView(tipView: UIView, position: TipViewPosition) {
+    func resetTipView(_ tipView: UIView, position: TipViewPosition) {
         animator.removeAllBehaviors()
         
         self.updateTipView(tipView, position: position)
-        animator.updateItemUsingCurrentState(tipView)
+        animator.updateItem(usingCurrentState: tipView)
         
         animator.addBehavior(attachmentBehavior)
         animator.addBehavior(snapBehavior)
@@ -134,7 +133,7 @@ class TipSecondController: UIViewController {
     /**
      更新卡片位置
      */
-    private func updateTipView(tipView: UIView, position: TipViewPosition) {
+    fileprivate func updateTipView(_ tipView: UIView, position: TipViewPosition) {
         let center = self.view.center
         tipView.center = position.viewCenter(center)
         tipView.transform = position.viewTransform()
@@ -143,7 +142,7 @@ class TipSecondController: UIViewController {
     /**
      设置卡片index
      */
-    private func setupTipView(tipView: TipCenterView, index: Int) {
+    fileprivate func setupTipView(_ tipView: TipCenterView, index: Int) {
         if index < self.tipModelArray.count {
             let tip = tipModelArray[index]
             tipView.model = tip as? TipModel
@@ -160,7 +159,7 @@ class TipSecondController: UIViewController {
      执行动画
      */
     
-    private func setupAnimator() {
+    fileprivate func setupAnimator() {
         
         // 创建动画对象
         animator = UIDynamicAnimator(referenceView: view)
@@ -169,52 +168,53 @@ class TipSecondController: UIViewController {
         // 创建卡片对象
         tipView = createTipView()
         view.addSubview(tipView)
-        snapBehavior = UISnapBehavior(item: tipView, snapToPoint: center)
+        snapBehavior = UISnapBehavior(item: tipView, snapTo: center)
         
         center.y += kTipViewOffset
         attachmentBehavior = UIAttachmentBehavior(item: tipView, offsetFromCenter: UIOffset(horizontal: 0, vertical: kTipViewOffset), attachedToAnchor: center)
         // 设置模型
         setupTipView(tipView, index: 0)
         // 设置卡片位置执行动画
-        resetTipView(tipView, position: .RotatedRight)
+        resetTipView(tipView, position: .rotatedRight)
         
         // 添加手势
-        let pan = UIPanGestureRecognizer(target: self, action: "panTipView:")
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(TipSecondController.panTipView(_:)))
         view.addGestureRecognizer(pan)
     }
     
     //MARK: - Getter or Setter
     /// 卡片位置
-    private var index : Int = 0
+    fileprivate var index : Int = 0
  /// 卡片view
-    private var tipView : TipCenterView!
+    fileprivate var tipView : TipCenterView!
  /// 物理引擎动画类
-    private var animator : UIDynamicAnimator!
+    fileprivate var animator : UIDynamicAnimator!
  /// 描述一个view和一个锚相连接的情况
-    private var attachmentBehavior : UIAttachmentBehavior!
+    fileprivate var attachmentBehavior : UIAttachmentBehavior!
  /// 将UIView通过动画吸附到某个点上
-    private var snapBehavior : UISnapBehavior!
+    fileprivate var snapBehavior : UISnapBehavior!
  /// 手势
-    private var panBehavior: UIAttachmentBehavior!
+    fileprivate var panBehavior: UIAttachmentBehavior!
     
     /**
      tipView的位置
      */
     enum TipViewPosition : Int {
-        case Default
-        case RotatedLeft
-        case RotatedRight
+        case `default`
+        case rotatedLeft
+        case rotatedRight
         
         /**
          返回一个重点位置
          */
-        func viewCenter(var center: CGPoint) -> CGPoint {
+        func viewCenter(_ center: CGPoint) -> CGPoint {
+            var center = center
             switch self {
-            case .RotatedLeft:
+            case .rotatedLeft:
                 center.y += kTipViewOffset
                 center.x -= kTipViewOffset
                 
-            case .RotatedRight:
+            case .rotatedRight:
                 center.y += kTipViewOffset
                 center.x += kTipViewOffset
                 
@@ -229,14 +229,14 @@ class TipSecondController: UIViewController {
          */
         func viewTransform() -> CGAffineTransform {
             switch self {
-            case .RotatedLeft:
-                return CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
+            case .rotatedLeft:
+                return CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
                 
-            case .RotatedRight:
-                return CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+            case .rotatedRight:
+                return CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
                 
             default:
-                return CGAffineTransformIdentity
+                return CGAffineTransform.identity
             }
         }
         

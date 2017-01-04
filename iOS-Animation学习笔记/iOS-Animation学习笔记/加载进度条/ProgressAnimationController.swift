@@ -51,16 +51,16 @@ class ProgressAnimationController: UIViewController {
         progressView.percentLabel.text = numberAsPercentage(percentage)
     }
     
-    func numberAsPercentage(number: Double) -> String {
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = .PercentStyle
+    func numberAsPercentage(_ number: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
         formatter.percentSymbol = ""
-        return formatter.stringFromNumber(number)!
+        return formatter.string(from: NSNumber(value: number))!
     }
     
-    private lazy var addBtn: UIButton = {
-        let btn = UIButton(type: UIButtonType.ContactAdd)
-        btn.addTarget(self, action: #selector(ProgressAnimationController.addBtnDidClick), forControlEvents: .TouchUpInside)
+    fileprivate lazy var addBtn: UIButton = {
+        let btn = UIButton(type: UIButtonType.contactAdd)
+        btn.addTarget(self, action: #selector(ProgressAnimationController.addBtnDidClick), for: .touchUpInside)
         btn.frame = CGRect(x: 0, y: 0, width: 54, height: 54)
         btn.center = CGPoint(x: self.view.width/2, y: self.view.height*0.8)
         return btn

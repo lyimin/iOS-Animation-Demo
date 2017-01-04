@@ -14,24 +14,24 @@ class ViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.tableView.reloadData()
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.titleArray.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("cellId")
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell : UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: "cellId")
         if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "cellId")
+            cell = UITableViewCell(style: .default, reuseIdentifier: "cellId")
         }
         cell?.textLabel?.text = titleArray[indexPath.row]
         return cell!
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var nextController : UIViewController!
         switch indexPath.row {
             
@@ -56,9 +56,9 @@ class ViewController: UITableViewController {
             case 6:
                 // SlidingPanels
                 nextController = RoomsViewController()
-                nextController.view.backgroundColor = UIColor.orangeColor()
+                nextController.view.backgroundColor = UIColor.orange
                 nextController.title = titleArray[indexPath.row]
-                self.presentViewController(nextController, animated: true, completion: nil)
+                self.present(nextController, animated: true, completion: nil)
             return
             case 7:
                 // 简书转场动画
@@ -72,7 +72,7 @@ class ViewController: UITableViewController {
         default:
         break;
         }
-        nextController.view.backgroundColor = UIColor.orangeColor()
+        nextController.view.backgroundColor = UIColor.orange
         nextController.title = titleArray[indexPath.row]
         self.navigationController?.pushViewController(nextController, animated: true)
     }

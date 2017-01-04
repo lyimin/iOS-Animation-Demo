@@ -9,23 +9,23 @@
 import UIKit
 
 class JSTransition: NSObject, UIViewControllerAnimatedTransitioning {
-    private var isDismissed : Bool = false
-    private var fromVC: UIViewController!
-    private var toVC: UIViewController!
+    fileprivate var isDismissed : Bool = false
+    fileprivate var fromVC: UIViewController!
+    fileprivate var toVC: UIViewController!
     
     convenience init(isDismissed : Bool) {
         self.init()
         self.isDismissed = isDismissed
     }
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 1.0
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         // 获取fromvc和tovc
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+        let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
+        let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
         
         self.fromVC = fromVC
         self.toVC = toVC
@@ -45,8 +45,8 @@ class JSTransition: NSObject, UIViewControllerAnimatedTransitioning {
     /**
      销毁动画
      */
-    private func dismissAnimation(transitionContext: UIViewControllerContextTransitioning) {
-        let frame = transitionContext.initialFrameForViewController(fromVC)
+    fileprivate func dismissAnimation(_ transitionContext: UIViewControllerContextTransitioning) {
+        let frame = transitionContext.initialFrame(for: fromVC)
         toVC.view.frame = frame
         
         var t1 = CATransform3DIdentity
@@ -55,43 +55,43 @@ class JSTransition: NSObject, UIViewControllerAnimatedTransitioning {
         t1 = CATransform3DRotate(t1, 15.0 * CGFloat(M_PI) / 180.0, 1, 0, 0)
         
         // 执行动画
-        UIView.animateKeyframesWithDuration(transitionDuration(transitionContext), delay: 0, options: .CalculationModeCubic, animations: {
+        UIView.animateKeyframes(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .calculationModeCubic, animations: {
             
             // 开始时间：1.0*0.0 持续时间：1.0*1.0
-            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
                 self.fromVC.view.y = frame.height
             })
             
             // 开始时间：1.0*0.35 持续时间：1.0*0.35
-            UIView.addKeyframeWithRelativeStartTime(0.35, relativeDuration: 0.35, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.35, relativeDuration: 0.35, animations: {
                 self.toVC.view.layer.transform = t1;
                 //透明度为1.0
                 self.toVC.view.alpha = 1.0;
             })
             
-            UIView.addKeyframeWithRelativeStartTime(0.75, relativeDuration: 0.25, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 0.25, animations: {
                 self.toVC.view.layer.transform = CATransform3DIdentity
             })
             
         }) { (_) in
             // 提交动画
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
     
     /**
      进场动画
      */
-    private func presentAnimation(transitionContext: UIViewControllerContextTransitioning) {
-        let containerView = transitionContext.containerView()
+    fileprivate func presentAnimation(_ transitionContext: UIViewControllerContextTransitioning) {
+        let containerView = transitionContext.containerView
         // 获取frame
-        let frame = transitionContext.initialFrameForViewController(fromVC)
+        let frame = transitionContext.initialFrame(for: fromVC)
         // 设置toviewframe
         var offScreenFrame = frame
         offScreenFrame.origin.y = offScreenFrame.size.height
         toVC.view.frame = offScreenFrame
         // 添加view
-        containerView?.insertSubview(toVC.view, aboveSubview: fromVC.view)
+        containerView.insertSubview(toVC.view, aboveSubview: fromVC.view)
         
         // 计算三维变化
         var t1 = CATransform3DIdentity
@@ -110,9 +110,9 @@ class JSTransition: NSObject, UIViewControllerAnimatedTransitioning {
         t2 = CATransform3DScale(t2, 0.8, 0.8, 1);
         
         // 执行动画
-        UIView.animateKeyframesWithDuration(transitionDuration(transitionContext), delay: 0, options: .CalculationModeCubic, animations: {
+        UIView.animateKeyframes(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .calculationModeCubic, animations: {
             // 开始时间：1.0*0.0 持续时间：1.0*0.4
-            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.4, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4, animations: {
                 //执行t1动画 缩放并旋转角度
                 self.fromVC.view.layer.transform = t1;
                 //fromView的透明度
@@ -120,27 +120,27 @@ class JSTransition: NSObject, UIViewControllerAnimatedTransitioning {
             })
             
             //开始时间：1.0*0.1 持续时间：1.0*0.5
-            UIView.addKeyframeWithRelativeStartTime(0.1, relativeDuration: 0.5, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.5, animations: {
                 //执行t2动画 向上平移和缩放
                 self.fromVC.view.layer.transform = t2;
             })
             
             //开始时间：1.0*0.0 持续时间：1.0*1.0
-            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
                 self.toVC.view.frame = frame
             })
             
         }) { (_) in
             // 提交动画
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         
 
     }
     
-    func animationEnded(transitionCompleted: Bool) {
+    func animationEnded(_ transitionCompleted: Bool) {
         if !transitionCompleted {
-            self.toVC.view.transform = CGAffineTransformIdentity
+            self.toVC.view.transform = CGAffineTransform.identity
         }
     }
 }

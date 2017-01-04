@@ -9,25 +9,25 @@
 import UIKit
 /// 这个类主要做转场动画
 class LoginTransitions: NSObject, UIViewControllerAnimatedTransitioning {
-    private var duration : NSTimeInterval!
-    private var alpha : CGFloat!
-    private var isPushAnimation : Bool!
+    fileprivate var duration : TimeInterval!
+    fileprivate var alpha : CGFloat!
+    fileprivate var isPushAnimation : Bool!
     
-    convenience init(transitionDuration : NSTimeInterval, StartingAlpha : CGFloat, isBOOL : Bool) {
+    convenience init(transitionDuration : TimeInterval, StartingAlpha : CGFloat, isBOOL : Bool) {
         self.init()
         self.duration = transitionDuration
         self.alpha = StartingAlpha
         self.isPushAnimation = isBOOL
     }
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let containerView : UIView = transitionContext.containerView()!
-        let fromView = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view
-        let toView = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)?.view
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let containerView : UIView = transitionContext.containerView
+        let fromView = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)?.view
+        let toView = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)?.view
         
         
         if self.isPushAnimation==true {
@@ -35,7 +35,7 @@ class LoginTransitions: NSObject, UIViewControllerAnimatedTransitioning {
             fromView?.alpha = 1
             containerView.addSubview(toView!)
             
-            UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: { () -> Void in
+            UIView.animate(withDuration: self.transitionDuration(using: transitionContext), animations: { () -> Void in
                 toView?.alpha = 1
                 fromView!.alpha = 0
                 }, completion: { (_) -> Void in
@@ -45,16 +45,16 @@ class LoginTransitions: NSObject, UIViewControllerAnimatedTransitioning {
         } else {
             fromView?.alpha = 1
             toView?.alpha = 0
-            fromView?.transform = CGAffineTransformMakeScale(1, 1)
+            fromView?.transform = CGAffineTransform(scaleX: 1, y: 1)
             containerView.addSubview(toView!)
             
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                fromView?.transform = CGAffineTransformMakeScale(3, 3)
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                fromView?.transform = CGAffineTransform(scaleX: 3, y: 3)
                 fromView?.alpha = 0
                 toView?.alpha = 1
                 }, completion: { (_) -> Void in
                     fromView?.alpha = 1
-                    fromView?.transform = CGAffineTransformIdentity
+                    fromView?.transform = CGAffineTransform.identity
                     transitionContext.completeTransition(true)
             })
         }

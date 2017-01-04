@@ -19,13 +19,13 @@ class PingFirstController : UIViewController, PingFirstContentViewDelegate, UINa
     ]
     
     // 记录当前点中的图标和背景色
-    private weak var selectIcon : UIImageView!
-    private weak var selectColor : UIView!
+    fileprivate weak var selectIcon : UIImageView!
+    fileprivate weak var selectColor : UIView!
     //MARK: - Lify cycle
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.delegate = self
-        self.navigationController?.navigationBarHidden = true;
+        self.navigationController?.isNavigationBarHidden = true;
     }
     
     override func viewDidLoad() {
@@ -38,17 +38,17 @@ class PingFirstController : UIViewController, PingFirstContentViewDelegate, UINa
     }
     
     //MARK: - UINavigation Delegate
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        if operation == .Push {
-            return PingTransition(operation: .Push)
-        } else if operation == .Pop {
-            return PingTransition(operation: .Pop)
+        if operation == .push {
+            return PingTransition(operation: .push)
+        } else if operation == .pop {
+            return PingTransition(operation: .pop)
         }
         return nil
     }
     //MARK: - PingIconViewController Delegate
-    func pingIconColorViewForTransition(transition: PingTransition) -> UIView! {
+    func pingIconColorViewForTransition(_ transition: PingTransition) -> UIView! {
         if let color = selectColor {
             return color
         } else {
@@ -56,7 +56,7 @@ class PingFirstController : UIViewController, PingFirstContentViewDelegate, UINa
         }
     }
     
-    func pingIconImageViewForTransition(transition: PingTransition) -> UIImageView! {
+    func pingIconImageViewForTransition(_ transition: PingTransition) -> UIImageView! {
         if let icon = selectIcon {
             return icon
         } else {
@@ -65,20 +65,20 @@ class PingFirstController : UIViewController, PingFirstContentViewDelegate, UINa
     }
     
     //MARK: - Event or Action
-    func twitterItemViewClick(color: UIView!, icon: UIImageView!) {
+    func twitterItemViewClick(_ color: UIView!, icon: UIImageView!) {
         self.selectColor = color
         self.selectIcon = icon
         self.navigationController?.pushViewController(PingSecondController(model: items.first!
             ), animated: true)
     }
     
-    func facebookItemViewClick(color: UIView!, icon: UIImageView!) {
+    func facebookItemViewClick(_ color: UIView!, icon: UIImageView!) {
         self.selectColor = color
         self.selectIcon = icon
         self.navigationController?.pushViewController(PingSecondController(model: items[1]), animated: true)
     }
     
-    func youtubeItemViewClick(color: UIView!, icon: UIImageView!) {
+    func youtubeItemViewClick(_ color: UIView!, icon: UIImageView!) {
         self.selectColor = color
         self.selectIcon = icon
         self.navigationController?.pushViewController(PingSecondController(model: items.last!), animated: true)

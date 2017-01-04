@@ -13,7 +13,7 @@ class RoomsDetailView: UIView {
     // 图片
     let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -27,18 +27,18 @@ class RoomsDetailView: UIView {
     // 标题
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFontOfSize(20)
-        label.textColor = UIColor.whiteColor()
-        label.textAlignment = .Center
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.white
+        label.textAlignment = .center
         return label
     }()
     
     /// 详情
     let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(17)
-        label.textColor = UIColor.whiteColor()
-        label.textAlignment = .Center
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.textColor = UIColor.white
+        label.textAlignment = .center
         label.numberOfLines = 0
         return label
     }()

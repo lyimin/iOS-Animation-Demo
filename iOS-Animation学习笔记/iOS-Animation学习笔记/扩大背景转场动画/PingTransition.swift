@@ -13,29 +13,29 @@ protocol PingIconViewController {
     /**
      返回背景色
      */
-    func pingIconColorViewForTransition(transition : PingTransition) -> UIView!
+    func pingIconColorViewForTransition(_ transition : PingTransition) -> UIView!
     /**
      返回图标
      */
-    func pingIconImageViewForTransition(transition : PingTransition) -> UIImageView!
+    func pingIconImageViewForTransition(_ transition : PingTransition) -> UIImageView!
     
-    optional
-    func pingIconImageViewForTransition(transition: PingTransition, willAnimateTransitionWithOperation operation: UINavigationControllerOperation, isForegroundViewController isForeground: Bool)
+    @objc optional
+    func pingIconImageViewForTransition(_ transition: PingTransition, willAnimateTransitionWithOperation operation: UINavigationControllerOperation, isForegroundViewController isForeground: Bool)
 }
 
 // 动画时间
-private let kPingTransitionDuration: NSTimeInterval = 0.6
+private let kPingTransitionDuration: TimeInterval = 0.6
 private let kZoomingIconTransitionZoomedScale: CGFloat = 15
 private let kZoomingIconTransitionBackgroundScale: CGFloat = 0.80
 
 class PingTransition: NSObject, UIViewControllerAnimatedTransitioning {
     // navigation状态 (push , pop)
-    private var operation : UINavigationControllerOperation!
+    fileprivate var operation : UINavigationControllerOperation!
     // 定义view的状态
     typealias PingViews = (coloredView: UIView, imageView: UIView)
     enum TransitionState {
-        case Initial
-        case Final
+        case initial
+        case final
     }
     
     
@@ -47,25 +47,25 @@ class PingTransition: NSObject, UIViewControllerAnimatedTransitioning {
     /**
      动画时间
      */
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return kPingTransitionDuration
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         // 获取时间
-        let duration = self.transitionDuration(transitionContext)
+        let duration = self.transitionDuration(using: transitionContext)
         // 获取fromController
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+        let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
         // 获取toController
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+        let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
         // 获取容器
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView
         
         var backgroundViewController = fromVC
         var foregroundViewController = toVC
         
-        if operation == .Pop {
+        if operation == .pop {
             backgroundViewController = toVC
             foregroundViewController = fromVC
         }
@@ -85,65 +85,65 @@ class PingTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
         
         // 添加view到容器
-        containerView?.addSubview(backgroundViewController!.view)
+        containerView.addSubview(backgroundViewController!.view)
         // 截取fromview的背景色,和图片
-        let snapshotOfColoredView = backgroundColorView.snapshotViewAfterScreenUpdates(false)
-        let snapshotOfImageView = UIImageView(image: backgroundImageView.image)
-        snapshotOfImageView.contentMode = .ScaleAspectFit
+        let snapshotOfColoredView = backgroundColorView?.snapshotView(afterScreenUpdates: false)
+        let snapshotOfImageView = UIImageView(image: backgroundImageView?.image)
+        snapshotOfImageView.contentMode = .scaleAspectFit
         
         // 设置动画属性
-        backgroundColorView.hidden = true
-        foregroundColorView.hidden = true
+        backgroundColorView?.isHidden = true
+        foregroundColorView?.isHidden = true
         
-        backgroundImageView.hidden = true
-        foregroundImageView.hidden = true
+        backgroundImageView?.isHidden = true
+        foregroundImageView?.isHidden = true
         
-        containerView!.backgroundColor = UIColor.whiteColor()
-        containerView!.addSubview(backgroundViewController!.view)
-        containerView!.addSubview(foregroundViewController!.view)
-        containerView!.addSubview(snapshotOfColoredView)
-        containerView!.addSubview(snapshotOfImageView)
+        containerView.backgroundColor = UIColor.white
+        containerView.addSubview(backgroundViewController!.view)
+        containerView.addSubview(foregroundViewController!.view)
+        containerView.addSubview(snapshotOfColoredView!)
+        containerView.addSubview(snapshotOfImageView)
         
         // 设置toView的背景
         let foregroundViewBackgroundColor = foregroundViewController!.view.backgroundColor
-        foregroundViewController!.view.backgroundColor = UIColor.clearColor()
+        foregroundViewController!.view.backgroundColor = UIColor.clear
         
-        var preTransitionState = TransitionState.Initial
-        var postTransitionState = TransitionState.Final
+        var preTransitionState = TransitionState.initial
+        var postTransitionState = TransitionState.final
         
-        if operation == .Pop {
-            preTransitionState = TransitionState.Final
-            postTransitionState = TransitionState.Initial
+        if operation == .pop {
+            preTransitionState = TransitionState.final
+            postTransitionState = TransitionState.initial
         }
         // 设置初始状态
-        configureViewsForState(preTransitionState, containerView: containerView!, backgroundViewController: backgroundViewController!, viewsInBackground: (backgroundColorView, backgroundImageView), viewsInForeground: (foregroundColorView, foregroundImageView), snapshotViews: (snapshotOfColoredView, snapshotOfImageView))
+        configureViewsForState(preTransitionState, containerView: containerView, backgroundViewController: backgroundViewController!, viewsInBackground: (backgroundColorView!, backgroundImageView!), viewsInForeground: (foregroundColorView!, foregroundImageView!), snapshotViews: (snapshotOfColoredView!, snapshotOfImageView))
         
         
         (foregroundViewController as? PingIconViewController)?.pingIconImageViewForTransition!(self, willAnimateTransitionWithOperation: operation, isForegroundViewController: true)
         
         foregroundViewController!.view.layoutIfNeeded()
         // 动画
-        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self]() -> Void in
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: { [weak self]() -> Void in
             
-                self!.configureViewsForState(postTransitionState, containerView: containerView!, backgroundViewController: backgroundViewController!, viewsInBackground: (backgroundColorView, backgroundImageView), viewsInForeground: (foregroundColorView, foregroundImageView), snapshotViews: (snapshotOfColoredView, snapshotOfImageView))
+                self!.configureViewsForState(postTransitionState, containerView: containerView, backgroundViewController: backgroundViewController!, viewsInBackground: (backgroundColorView!, backgroundImageView!), viewsInForeground: (foregroundColorView!, foregroundImageView!), snapshotViews: (snapshotOfColoredView!, snapshotOfImageView))
             
             }) { (_) -> Void in
                 
                 // 动画完成后设置 初始值
-                backgroundViewController!.view.transform = CGAffineTransformIdentity
+                backgroundViewController!.view.transform = CGAffineTransform.identity
                 // 移除新添加的view
-                snapshotOfColoredView.removeFromSuperview()
+                snapshotOfColoredView?.removeFromSuperview()
                 snapshotOfImageView.removeFromSuperview()
                 
-                backgroundColorView.hidden = false
-                foregroundColorView.hidden = false
+                backgroundColorView?.isHidden = false
+                foregroundColorView?.isHidden = false
                 
-                backgroundImageView.hidden = false
-                foregroundImageView.hidden = false
+                backgroundImageView?.isHidden = false
+                foregroundImageView?.isHidden = false
                 
                 foregroundViewController!.view.backgroundColor = foregroundViewBackgroundColor
 
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
     
@@ -157,27 +157,27 @@ class PingTransition: NSObject, UIViewControllerAnimatedTransitioning {
      - parameter viewsInForeground:        后一个控制器的view
      - parameter snapshotViews:            做动画的view
      */
-    private func configureViewsForState(state: TransitionState, containerView: UIView, backgroundViewController: UIViewController, viewsInBackground: PingViews, viewsInForeground: PingViews, snapshotViews: PingViews) {
+    fileprivate func configureViewsForState(_ state: TransitionState, containerView: UIView, backgroundViewController: UIViewController, viewsInBackground: PingViews, viewsInForeground: PingViews, snapshotViews: PingViews) {
         
         switch state {
-            case .Initial:
-                backgroundViewController.view.transform = CGAffineTransformIdentity
+            case .initial:
+                backgroundViewController.view.transform = CGAffineTransform.identity
                 backgroundViewController.view.alpha = 1
                 
                 // 设置做动画的view的frame
-                snapshotViews.coloredView.transform = CGAffineTransformIdentity
-                snapshotViews.coloredView.frame = containerView.convertRect(viewsInBackground.coloredView.frame, fromView: viewsInBackground.coloredView.superview)
-                snapshotViews.imageView.frame = containerView.convertRect(viewsInBackground.imageView.frame, fromView: viewsInBackground.imageView.superview)
+                snapshotViews.coloredView.transform = CGAffineTransform.identity
+                snapshotViews.coloredView.frame = containerView.convert(viewsInBackground.coloredView.frame, from: viewsInBackground.coloredView.superview)
+                snapshotViews.imageView.frame = containerView.convert(viewsInBackground.imageView.frame, from: viewsInBackground.imageView.superview)
             
-            case .Final:
+            case .final:
                 // 动画完成后设置前一个控制器的view缩放为0.8 alpha为0
-                backgroundViewController.view.transform = CGAffineTransformMakeScale(kZoomingIconTransitionBackgroundScale, kZoomingIconTransitionBackgroundScale)
+                backgroundViewController.view.transform = CGAffineTransform(scaleX: kZoomingIconTransitionBackgroundScale, y: kZoomingIconTransitionBackgroundScale)
                 backgroundViewController.view.alpha = 0
                 
                 // 设置动画的view的frame
-                snapshotViews.coloredView.transform = CGAffineTransformMakeScale(kZoomingIconTransitionZoomedScale, kZoomingIconTransitionZoomedScale)
-                snapshotViews.coloredView.center = containerView.convertPoint(viewsInForeground.imageView.center, fromView: viewsInForeground.imageView.superview)
-                snapshotViews.imageView.frame = containerView.convertRect(viewsInForeground.imageView.frame, fromView: viewsInForeground.imageView.superview)
+                snapshotViews.coloredView.transform = CGAffineTransform(scaleX: kZoomingIconTransitionZoomedScale, y: kZoomingIconTransitionZoomedScale)
+                snapshotViews.coloredView.center = containerView.convert(viewsInForeground.imageView.center, from: viewsInForeground.imageView.superview)
+                snapshotViews.imageView.frame = containerView.convert(viewsInForeground.imageView.frame, from: viewsInForeground.imageView.superview)
         }
     }
 }

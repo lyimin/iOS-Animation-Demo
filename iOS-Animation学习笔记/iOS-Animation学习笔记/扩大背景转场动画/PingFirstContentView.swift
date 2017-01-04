@@ -9,9 +9,9 @@
 import UIKit
 
 protocol PingFirstContentViewDelegate : AnyObject {
-    func twitterItemViewClick(color : UIView!, icon : UIImageView!)
-    func facebookItemViewClick(color : UIView!, icon : UIImageView!)
-    func youtubeItemViewClick(color : UIView!, icon : UIImageView!)
+    func twitterItemViewClick(_ color : UIView!, icon : UIImageView!)
+    func facebookItemViewClick(_ color : UIView!, icon : UIImageView!)
+    func youtubeItemViewClick(_ color : UIView!, icon : UIImageView!)
 }
 
 class PingFirstContentView: UIView {
@@ -49,6 +49,6 @@ class PingFirstContentView: UIView {
     }
 
     class func contentView() -> PingFirstContentView {
-        return NSBundle.mainBundle().loadNibNamed("PingFirstContentView", owner: nil, options: nil).first as! PingFirstContentView
+        return Bundle.main.loadNibNamed("PingFirstContentView", owner: nil, options: nil)!.first as! PingFirstContentView
     }
 }

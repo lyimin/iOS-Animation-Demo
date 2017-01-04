@@ -17,27 +17,27 @@ class RoomTransition: NSObject, UIViewControllerAnimatedTransitioning, UIViewCon
      - Dismissing: 销毁
      */
     enum State {
-        case None
-        case Presenting
-        case Dismissing
+        case none
+        case presenting
+        case dismissing
     }
     
-    var state = State.None
+    var state = State.none
     var presentingController: UIViewController!
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.6
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let duration = transitionDuration(transitionContext)
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let duration = transitionDuration(using: transitionContext)
         
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let containerView = transitionContext.containerView()
+        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
+        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let containerView = transitionContext.containerView
         
         var backgroundViewController = fromViewController
         var foregroundViewController = toViewController
-        if (state == .Dismissing) {
+        if (state == .dismissing) {
             backgroundViewController = toViewController
             foregroundViewController = fromViewController
         }
@@ -52,65 +52,65 @@ class RoomTransition: NSObject, UIViewControllerAnimatedTransitioning, UIViewCon
         let foregroundDetailView = foregroundDetailViewMaybe!
         
         // add views to container
-        containerView!.addSubview(backgroundViewController.view)
+        containerView.addSubview(backgroundViewController.view)
         
         let wrapperView = UIView(frame: foregroundViewController.view.frame)
         wrapperView.layer.shadowRadius = 5
         wrapperView.layer.shadowOpacity = 0.3
-        wrapperView.layer.shadowOffset = CGSizeZero
+        wrapperView.layer.shadowOffset = CGSize.zero
         wrapperView.addSubview(foregroundViewController.view)
         foregroundViewController.view.clipsToBounds = true
         
-        containerView!.addSubview(wrapperView)
+        containerView.addSubview(wrapperView)
         
         // perform animation
-        (foregroundViewController as? PanelTransitionViewController)?.panelTransitionWillAnimateTransition?(self, presenting: state == .Presenting, isForeground: true)
+        (foregroundViewController as? PanelTransitionViewController)?.panelTransitionWillAnimateTransition?(self, presenting: state == .presenting, isForeground: true)
         
-        backgroundDetailView.hidden = true
+        backgroundDetailView.isHidden = true
         
-        let backgroundFrame = containerView!.convertRect(backgroundDetailView.frame, fromView: backgroundDetailView.superview)
-        let screenBounds = UIScreen.mainScreen().bounds
+        let backgroundFrame = containerView.convert(backgroundDetailView.frame, from: backgroundDetailView.superview)
+        let screenBounds = UIScreen.main.bounds
         let scale = backgroundFrame.width / screenBounds.width
         
-        if state == .Presenting {
-            wrapperView.transform = CGAffineTransformMakeScale(scale, scale)
+        if state == .presenting {
+            wrapperView.transform = CGAffineTransform(scaleX: scale, y: scale)
             foregroundDetailView.transitionProgress = 1
         }
         else {
-            wrapperView.transform = CGAffineTransformIdentity
+            wrapperView.transform = CGAffineTransform.identity
         }
         
-        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
             [self]
-            if self.state == .Presenting {
-                wrapperView.transform = CGAffineTransformIdentity
+            if self.state == .presenting {
+                wrapperView.transform = CGAffineTransform.identity
                 foregroundDetailView.transitionProgress = 0
             }
             else {
-                wrapperView.transform = CGAffineTransformMakeScale(scale, scale)
+                wrapperView.transform = CGAffineTransform(scaleX: scale, y: scale)
                 foregroundDetailView.transitionProgress = 1
             }
             
         }) { (finished) -> Void in
-            backgroundDetailView.hidden = false
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+            backgroundDetailView.isHidden = false
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         presentingController = presenting
         if presented is PanelTransitionViewController &&
             presenting is PanelTransitionViewController {
-            state = .Presenting
+            state = .presenting
             return self
         }
         return nil
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if dismissed is PanelTransitionViewController &&
             presentingController is PanelTransitionViewController {
-            state = .Dismissing
+            state = .dismissing
             return self
         }
         return nil
@@ -119,8 +119,8 @@ class RoomTransition: NSObject, UIViewControllerAnimatedTransitioning, UIViewCon
 
 @objc
 protocol PanelTransitionViewController {
-    func panelTransitionDetailViewForTransition(transition: RoomTransition) -> RoomsDetailView!
+    func panelTransitionDetailViewForTransition(_ transition: RoomTransition) -> RoomsDetailView!
     
-    optional func panelTransitionWillAnimateTransition(transition: RoomTransition, presenting: Bool, isForeground: Bool)
+    @objc optional func panelTransitionWillAnimateTransition(_ transition: RoomTransition, presenting: Bool, isForeground: Bool)
 }
 

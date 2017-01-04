@@ -10,11 +10,11 @@ import UIKit
 
 class SplashAnimiationController: UIViewController {
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // 添加一个五角星覆盖层
         let layer = CALayer()
-        layer.contents = UIImage(named: "logo")?.CGImage
+        layer.contents = UIImage(named: "logo")?.cgImage
         layer.position = self.view.center
         layer.bounds = CGRect(x: 0, y: 0, width: 60, height: 60)
         self.view.layer.mask = layer
@@ -31,20 +31,20 @@ class SplashAnimiationController: UIViewController {
         let secondRect : CGRect = CGRect(x: 0, y: 0, width: 50, height: 50)
         let threeRect : CGRect = CGRect(x: 0, y: 0, width: 2000, height: 2000)
         // 设置时间，值
-        maskAnimation.values = [NSValue(CGRect: firstRect),NSValue(CGRect: secondRect),NSValue(CGRect: threeRect)]
-        maskAnimation.keyTimes = [NSNumber(float: 0),NSNumber(float: 0.5),NSNumber(float: 1)]
+        maskAnimation.values = [NSValue(cgRect: firstRect),NSValue(cgRect: secondRect),NSValue(cgRect: threeRect)]
+        maskAnimation.keyTimes = [NSNumber(value: 0 as Float),NSNumber(value: 0.5 as Float),NSNumber(value: 1 as Float)]
         // 设置时间函数
         maskAnimation.timingFunctions = [CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut),CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut),CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)]
-        maskAnimation.removedOnCompletion = false
+        maskAnimation.isRemovedOnCompletion = false
         maskAnimation.fillMode = kCAFillModeForwards
-        self.view.layer.mask?.addAnimation(maskAnimation, forKey: "logoAnimation")
+        self.view.layer.mask?.add(maskAnimation, forKey: "logoAnimation")
         
         // self.view 的动画
-        UIView.animateWithDuration(0.3, delay: 1.3, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-            self.view.transform = CGAffineTransformMakeScale(1.1, 1.1)
+        UIView.animate(withDuration: 0.3, delay: 1.3, options: UIViewAnimationOptions(), animations: { () -> Void in
+            self.view.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
             }) { (_) -> Void in
-                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    self.view.transform = CGAffineTransformIdentity
+                UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                    self.view.transform = CGAffineTransform.identity
                 })
                 
         }

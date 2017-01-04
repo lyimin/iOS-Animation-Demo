@@ -21,8 +21,8 @@ class ProgressView: UIView {
     }
     
     // 进度条位子
-    private let progressLayer = CAShapeLayer()
-    private let gradientLayer = CAGradientLayer()
+    fileprivate let progressLayer = CAShapeLayer()
+    fileprivate let gradientLayer = CAGradientLayer()
     
     // 总量
     var range: CGFloat = 128
@@ -38,14 +38,14 @@ class ProgressView: UIView {
         setupLayers()
     }
     
-    private func setupLayers() {
+    fileprivate func setupLayers() {
         // 设置位置
-        progressLayer.position = CGPointZero
+        progressLayer.position = CGPoint.zero
         // 设置线宽
         progressLayer.lineWidth = 3.0
         progressLayer.strokeEnd = 0.0
         progressLayer.fillColor = nil
-        progressLayer.strokeColor = UIColor.blackColor().CGColor
+        progressLayer.strokeColor = UIColor.black.cgColor
         
         // 创建路径
         let radius = CGFloat(self.width/2) - progressLayer.lineWidth
@@ -53,7 +53,7 @@ class ProgressView: UIView {
         let endAngle = CGFloat(3/2 * M_PI)
         let path = UIBezierPath(arcCenter: self.center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
-        progressLayer.path = path.CGPath
+        progressLayer.path = path.cgPath
         
         // 添加layer
         self.layer.addSublayer(progressLayer)
@@ -62,7 +62,7 @@ class ProgressView: UIView {
         gradientLayer.frame = self.bounds
         
         // 设置渐变颜色
-        gradientLayer.colors = [ColorPalette.teal.CGColor, ColorPalette.orange.CGColor, ColorPalette.pink.CGColor]
+        gradientLayer.colors = [ColorPalette.teal.cgColor, ColorPalette.orange.cgColor, ColorPalette.pink.cgColor]
         // 设置渐变位置
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
@@ -82,11 +82,11 @@ class ProgressView: UIView {
         animation.fromValue = fromValue
         animation.toValue = toValue
         
-        progressLayer.addAnimation(animation, forKey: "stroke")
+        progressLayer.add(animation, forKey: "stroke")
         progressLayer.strokeEnd = toValue
     }
     
     class func createView() -> ProgressView {
-        return NSBundle.mainBundle().loadNibNamed("ProgressView", owner: nil, options: nil).first as! ProgressView
+        return Bundle.main.loadNibNamed("ProgressView", owner: nil, options: nil)!.first as! ProgressView
     }
 }

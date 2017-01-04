@@ -28,19 +28,19 @@ class PingSecondContentView: UIView {
     }
     
     class func contentView () -> PingSecondContentView {
-        return NSBundle.mainBundle().loadNibNamed("PingSecondContentView", owner: nil, options: nil).first as! PingSecondContentView
+        return Bundle.main.loadNibNamed("PingSecondContentView", owner: nil, options: nil)!.first as! PingSecondContentView
     }
     
     /**
      点击返回
      */
-    @IBAction func returnBtnDidClick(sender: UIButton) {
+    @IBAction func returnBtnDidClick(_ sender: UIButton) {
         if self.block != nil {
             self.block!()
         }
     }
     
-    func returnBtnDidClickWithBlock(block : returnBtnClickBlock) {
+    func returnBtnDidClickWithBlock(_ block : @escaping returnBtnClickBlock) {
         self.block = block
     }
 }

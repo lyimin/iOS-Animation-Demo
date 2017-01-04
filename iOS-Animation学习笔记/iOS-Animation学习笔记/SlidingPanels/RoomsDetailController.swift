@@ -15,7 +15,7 @@ class RoomsDetailController: UIViewController, PanelTransitionViewController {
         view.addSubview(self.detailView)
         view.addSubview(self.closeBtn)
         // 初始化contentView
-        contentView.backgroundColor = UIColor.whiteColor()
+        contentView.backgroundColor = UIColor.white
         contentView.frame = CGRect(x: 0, y: kContentViewTopOffset, width: view.bounds.width, height: view.bounds.height-kContentViewTopOffset)
         view.addSubview(contentView)
         // 添加背景图
@@ -34,30 +34,30 @@ class RoomsDetailController: UIViewController, PanelTransitionViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
-    func handlePan(pan: UIPanGestureRecognizer) {
+    func handlePan(_ pan: UIPanGestureRecognizer) {
         switch pan.state {
-        case .Began:
+        case .began:
             fallthrough
-        case .Changed:
+        case .changed:
             // 改变y的值
-            contentView.frame.origin.y += pan.translationInView(view).y
-            pan.setTranslation(CGPointZero, inView: view)
+            contentView.frame.origin.y += pan.translation(in: view).y
+            pan.setTranslation(CGPoint.zero, in: view)
             
             let progress = (contentView.frame.origin.y - kContentViewTopOffset) / (view.bounds.height - kContentViewTopOffset - kContentViewBottomOffset)
             detailView.transitionProgress = progress
             
-        case .Ended:
+        case .ended:
             fallthrough
-        case .Cancelled:
+        case .cancelled:
             let progress = (contentView.frame.origin.y - kContentViewTopOffset) / (view.bounds.height - kContentViewTopOffset - kContentViewBottomOffset)
             // progress>0.5 下拉完成动画
             if progress > 0.5 {
-                let duration = NSTimeInterval(1-progress) * kContentViewAnimationDuration
-                UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: { () -> Void in
+                let duration = TimeInterval(1-progress) * kContentViewAnimationDuration
+                UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
                     [self]
                     
                     self.detailView.transitionProgress = 1
@@ -67,8 +67,8 @@ class RoomsDetailController: UIViewController, PanelTransitionViewController {
             }
             // progress<0.5 收回动画
             else {
-                let duration = NSTimeInterval(progress) * kContentViewAnimationDuration
-                UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: { () -> Void in
+                let duration = TimeInterval(progress) * kContentViewAnimationDuration
+                UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
                     [self]
                     
                     self.detailView.transitionProgress = 0
@@ -83,26 +83,26 @@ class RoomsDetailController: UIViewController, PanelTransitionViewController {
     }
     
     func closeBtnDidClick() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
-    func panelTransitionDetailViewForTransition(transition: RoomTransition) -> RoomsDetailView! {
+    func panelTransitionDetailViewForTransition(_ transition: RoomTransition) -> RoomsDetailView! {
         return detailView
     }
     
-    func panelTransitionWillAnimateTransition(transition: RoomTransition, presenting: Bool, isForeground: Bool) {
+    func panelTransitionWillAnimateTransition(_ transition: RoomTransition, presenting: Bool, isForeground: Bool) {
         if presenting {
             contentView.frame.origin.y = view.bounds.height
             closeBtn.alpha = 0
             
-            UIView.animateWithDuration(0.6, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: { () -> Void in
+            UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
                 [self]
                 self.contentView.frame.origin.y = self.kContentViewTopOffset
                 self.closeBtn.alpha = 1
                 }, completion: nil)
         }
         else {
-            UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
                 [self]
                 self.contentView.frame.origin.y = self.view.bounds.height
                 self.closeBtn.alpha = 0
@@ -111,11 +111,11 @@ class RoomsDetailController: UIViewController, PanelTransitionViewController {
     }
     //MARK: --------------------------- Getter or Setter --------------------------
     // 距离顶部的距离
-    private let kContentViewTopOffset: CGFloat = 64
+    fileprivate let kContentViewTopOffset: CGFloat = 64
     // 距离底部的距离
-    private let kContentViewBottomOffset: CGFloat = 64
+    fileprivate let kContentViewBottomOffset: CGFloat = 64
     // 动画时间
-    private let kContentViewAnimationDuration: NSTimeInterval = 1.4
+    fileprivate let kContentViewAnimationDuration: TimeInterval = 1.4
     let roomTransition = RoomTransition()
     // 模型
     var room: Room?
@@ -123,15 +123,15 @@ class RoomsDetailController: UIViewController, PanelTransitionViewController {
     // contentView
     let contentView = UIView()
     // view
-    private lazy var detailView : RoomsDetailView = {
+    fileprivate lazy var detailView : RoomsDetailView = {
         var detailView = RoomsDetailView(frame: self.view.bounds)
         return detailView
     }()
     // closeBtn
-    private lazy var closeBtn: UIButton = {
+    fileprivate lazy var closeBtn: UIButton = {
         var closeBtn: UIButton = UIButton(frame: CGRect(x: 0, y: 20, width: 44, height: 44))
-        closeBtn.setImage(UIImage(named: "close-button"), forState: .Normal)
-        closeBtn.addTarget(self, action: #selector(RoomsDetailController.closeBtnDidClick), forControlEvents: .TouchUpInside)
+        closeBtn.setImage(UIImage(named: "close-button"), for: UIControlState())
+        closeBtn.addTarget(self, action: #selector(RoomsDetailController.closeBtnDidClick), for: .touchUpInside)
         return closeBtn
     }()
 }

@@ -14,28 +14,28 @@ class JSFirstViewController: UIViewController, UIViewControllerTransitioningDele
         
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         btn.center = self.view.center
-        btn.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        btn.setTitle("转场", forState: .Normal)
-        btn.addTarget(self, action: #selector(JSFirstViewController.btnDidClick), forControlEvents: .TouchUpInside)
+        btn.setTitleColor(UIColor.white, for: UIControlState())
+        btn.setTitle("转场", for: UIControlState())
+        btn.addTarget(self, action: #selector(JSFirstViewController.btnDidClick), for: .touchUpInside)
         self.view.addSubview(btn)
     }
     
     // 点击按钮
-    @objc private func btnDidClick() {
+    @objc fileprivate func btnDidClick() {
         let secondVC = JSSecondViewController()
-        secondVC.modalPresentationStyle = .OverCurrentContext
+        secondVC.modalPresentationStyle = .overCurrentContext
         secondVC.transitioningDelegate = self
-        self.presentViewController(secondVC, animated: true, completion: nil)
+        self.present(secondVC, animated: true, completion: nil)
     }
     
     // MARK: -UIViewControllerTransitioningDelegate
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return JSTransition(isDismissed: false)
         
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return JSTransition(isDismissed: true)
         

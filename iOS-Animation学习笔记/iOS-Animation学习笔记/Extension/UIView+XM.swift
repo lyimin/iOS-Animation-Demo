@@ -16,10 +16,10 @@ public extension UIView {
     - parameter target: 对象
     - parameter action: 动作
     */
-    public func viewAddTarget(target : AnyObject,action : Selector) {
+    public func viewAddTarget(_ target : AnyObject,action : Selector) {
         
         let tap = UITapGestureRecognizer(target: target, action: action)
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
         self.addGestureRecognizer(tap)
     }
     
